@@ -9,7 +9,7 @@ export async function POST({ request }) {
 
   // Configure the connection to your MikroTik router using RouterOSAPI
   const client = new RouterOSAPI({
-    host: "152.167.228.15", // Replace with your router's IP
+    host: "heq09d53219.sn.mynetname.net", // Replace with your router's IP
     user: "admin",         // Replace with your router's username
     password: "",          // Replace with your router's password
     port: 8728,            // Default API port
