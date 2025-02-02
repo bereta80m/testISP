@@ -1,0 +1,38 @@
+--- 
+// In your Astro component/page
+import { useState } from 'react';
+---
+
+<form id="clientForm">
+  <input type="text" name="username" placeholder="Username" required />
+  <input type="password" name="password" placeholder="Password" required />
+  <button type="submit">Add PPP Client</button>
+</form>
+
+<script>
+  document.getElementById('clientForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      const response = await fetch("/api/add-client", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (result.success) {
+        alert("PPP client added successfully!");
+      } else {
+        alert("Failed to add client");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred");
+    }
+  });
+</script>
