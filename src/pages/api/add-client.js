@@ -1,35 +1,34 @@
 // src/pages/api/add-client.js
 
-// Import the module and extract RouterOSAPI (instead of RouterOSClient)
 import pkg from 'node-routeros';
 const { RouterOSAPI } = pkg;
 
 export async function POST({ request }) {
   const { username, password, service, profile } = await request.json();
 
-  // Configure the connection to your MikroTik router using RouterOSAPI
+  // Configura la conexión al Mikrotik (o a un servidor intermedio conectado al Mikrotik)
   const client = new RouterOSAPI({
-    host: "heq09d53219.sn.mynetname.net", // Replace with your router's IP
-    user: "admin",         // Replace with your router's username
-    password: "",          // Replace with your router's password
-    port: 8729,            // Default API port
+    host: "3.138.118.1",         // Elastic IP de tu servidor VPN en AWS
+    user: "vpnuser",             // Usuario configurado para API (por ejemplo, el usuario PAM 'vpnuser')
+    password: "1234",            // Contraseña configurada para ese usuario
+    port: 8728,                  // Puerto API del Mikrotik (ajústalo si es diferente)
   });
 
   try {
-    // Connect to the MikroTik router
+    // Conecta al dispositivo
     await client.connect();
 
-    // Add a PPP client (secret) with the provided parameters.
+    // Agrega un cliente PPP (secret) en el Mikrotik usando los datos recibidos
     await client.write("/ppp/secret/add", [
       `=name=${username}`,
       `=password=${password}`,
-      `=service=${service || "pppoe"}`,   // Default service: pppoe
-      `=profile=${profile || "default"}`,  // Default profile: default
+      `=service=${service || "pppoe"}`,    // Servicio por defecto: pppoe
+      `=profile=${profile || "default"}`,  // Perfil por defecto: default
     ]);
 
-    // Close the connection
+    // Cierra la conexión
     client.close();
-
+    
     return new Response(
       JSON.stringify({ success: true }),
       { status: 200, headers: { "Content-Type": "application/json" } }
