@@ -8,9 +8,9 @@ export async function POST({ request }) {
 
   // Configura la conexión al Mikrotik (o a un servidor intermedio conectado al Mikrotik)
   const client = new RouterOSAPI({
-    host: "3.138.118.1",         // Elastic IP de tu servidor VPN en AWS
-    user: "vpnuser",             // Usuario configurado para API (por ejemplo, el usuario PAM 'vpnuser')
-    password: "1234",            // Contraseña configurada para ese usuario
+    host: "192.168.10.1",         // Elastic IP de tu servidor VPN en AWS
+    user: "admin",             // Usuario configurado para API (por ejemplo, el usuario PAM 'vpnuser')
+    password: "",            // Contraseña configurada para ese usuario
     port: 8728,                  // Puerto API del Mikrotik (ajústalo si es diferente)
   });
 
